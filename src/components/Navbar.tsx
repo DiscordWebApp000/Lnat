@@ -1,0 +1,257 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { authService } from '@/lib/firebase-services';
+import { 
+  ArrowLeft, 
+  LogOut, 
+  BookOpen, 
+  PenTool, 
+  SplitSquareVertical,
+  Brain,
+  BarChart3,
+  Shield
+} from 'lucide-react';
+
+interface NavbarProps {
+  title?: string;
+  description?: string;
+  showBackButton?: boolean;
+  backUrl?: string;
+  variant?: 'default' | 'tool';
+}
+
+export default function Navbar({ 
+  title, 
+  description, 
+  showBackButton = false, 
+  backUrl = '/',
+}: NavbarProps) {
+  const { currentUser } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  // Get page-specific info if not provided
+  const getPageInfo = () => {
+    if (title && description) {
+      return { title, description, icon: getPageIcon() };
+    }
+
+    switch (pathname) {
+      case '/':
+        return { 
+          title: 'LNAT Prep', 
+          description: 'AI-Powered Law Exam Preparation', 
+          icon: BookOpen 
+        };
+      case '/dashboard':
+        return { 
+          title: 'LNAT Dashboard', 
+          description: `Welcome, ${currentUser?.firstName || 'User'}!`, 
+          icon: BarChart3 
+        };
+      case '/text-question-analysis':
+        return { 
+          title: 'Text-Question Analysis', 
+          description: 'AI-Supported Text-Question Analysis', 
+          icon: SplitSquareVertical 
+        };
+      case '/question-generator':
+        return { 
+          title: 'LNAT Question Generator', 
+          description: 'AI-Supported Law Exam Preparation', 
+          icon: Brain 
+        };
+      case '/writing-evaluator':
+        return { 
+          title: 'Essay Evaluator', 
+          description: 'AI-Supported Essay Analysis', 
+          icon: PenTool 
+        };
+      case '/exam-results':
+        return { 
+          title: 'Exam Results', 
+          description: 'Your complete exam history', 
+          icon: BarChart3 
+        };
+      case '/admin':
+        return { 
+          title: 'Admin Panel', 
+          description: 'User and permission management', 
+          icon: Shield 
+        };
+      default:
+        return { 
+          title: 'LNAT Prep', 
+          description: 'AI-Powered Law Exam Preparation', 
+          icon: BookOpen 
+        };
+    }
+  };
+
+  const getPageIcon = () => {
+    switch (pathname) {
+      case '/text-question-analysis':
+        return SplitSquareVertical;
+      case '/question-generator':
+        return Brain;
+      case '/writing-evaluator':
+        return PenTool;
+      case '/dashboard':
+        return BarChart3;
+      case '/exam-results':
+        return BarChart3;
+      case '/admin':
+        return Shield;
+      default:
+        return BookOpen;
+    }
+  };
+
+  const getPageColor = () => {
+    switch (pathname) {
+      case '/text-question-analysis':
+        return 'bg-green-600';
+      case '/question-generator':
+        return 'bg-blue-600';
+      case '/writing-evaluator':
+        return 'bg-purple-600';
+      case '/dashboard':
+        return 'bg-green-600';
+      case '/exam-results':
+        return 'bg-green-600';
+      case '/admin':
+        return 'bg-red-600';
+      default:
+        return 'bg-indigo-600';
+    }
+  };
+
+  const pageInfo = getPageInfo();
+  const Icon = pageInfo.icon;
+  const colorClass = getPageColor();
+
+  return (
+    <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Left side */}
+          <div className="flex items-center gap-4">
+            {showBackButton && (
+              <Link 
+                href={backUrl} 
+                className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span className="text-sm font-medium">Back</span>
+              </Link>
+            )}
+            
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className={`w-10 h-10 ${colorClass} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-200 ${showBackButton ? 'ml-2' : ''}`}>
+                <Icon className="w-6 h-6 text-white" />
+              </div>
+              
+              <div className="hidden sm:block">
+                <h1 className="text-lg font-bold text-gray-900 group-hover:text-gray-700 transition-colors">{pageInfo.title}</h1>
+                <p className="text-xs text-gray-500">{pageInfo.description}</p>
+              </div>
+            </Link>
+          </div>
+          
+          {/* Right side */}
+          <div className="flex items-center gap-3">
+            {/* Navigation Links */}
+            {pathname !== '/' && currentUser && (
+              <nav className="hidden md:flex items-center gap-1">
+                <Link 
+                  href="/dashboard" 
+                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    pathname === '/dashboard' 
+                      ? 'text-green-600 bg-green-50' 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                
+                {currentUser.role === 'admin' && (
+                  <Link 
+                    href="/admin" 
+                    className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      pathname === '/admin' 
+                        ? 'text-red-600 bg-red-50' 
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                  >
+                    Admin
+                  </Link>
+                )}
+              </nav>
+            )}
+
+            {/* User Section */}
+            {currentUser ? (
+              <div className="flex items-center gap-2">
+                {/* User Info */}
+                <Link 
+                  href="/dashboard"
+                  className="hidden sm:flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200 cursor-pointer"
+                >
+                  <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-xs font-bold text-white">
+                      {currentUser.firstName.charAt(0)}{currentUser.lastName.charAt(0)}
+                    </span>
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-medium text-gray-900">{currentUser.firstName}</span>
+                    <span className="text-xs text-gray-500 ml-1">• {currentUser.role}</span>
+                  </div>
+                </Link>
+
+                {/* Logout Button - Hide on homepage */}
+                {pathname !== '/' && (
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+                    title="Logout"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span className="hidden sm:inline text-sm font-medium">Logout</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link 
+                  href="/login" 
+                  className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200 text-sm font-medium"
+                >
+                  Login
+                </Link>
+                <Link 
+                  href="/register" 
+                  className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-sm font-medium shadow-lg hover:shadow-xl"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
