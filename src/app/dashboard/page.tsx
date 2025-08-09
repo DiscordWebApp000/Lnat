@@ -154,7 +154,7 @@ export default function DashboardPage() {
   };
 
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('tr-TR', {
+    return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',

@@ -89,7 +89,7 @@ export default function AdminPage() {
   });
 
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('tr-TR', {
+    return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -114,8 +114,8 @@ export default function AdminPage() {
       <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex items-center justify-center">
         <div className="text-center">
           <XCircle className="w-16 h-16 text-red-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Erişim Reddedildi</h1>
-          <p className="text-gray-600 mb-4">Bu sayfaya erişim için admin yetkisi gerekli.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
+          <p className="text-gray-600 mb-4">Admin permission required to access this page.</p>
           <Link href="/dashboard" className="text-red-600 hover:text-red-700 font-medium">
             Back to Dashboard
           </Link>
@@ -279,7 +279,7 @@ export default function AdminPage() {
                           </div>
                           <div className="flex items-center gap-1">
                             <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                            <span>Son giriş: {formatDate(user.lastLoginAt)}</span>
+                            <span>Last login: {formatDate(user.lastLoginAt)}</span>
                           </div>
                         </div>
 

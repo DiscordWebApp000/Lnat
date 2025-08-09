@@ -34,10 +34,9 @@ export const metadata: Metadata = {
     description: "Yapay zeka destekli LNAT sınavı hazırlık platformu",
   },
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
-    shortcut: "/favicon.svg",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   manifest: "/site.webmanifest",
 };

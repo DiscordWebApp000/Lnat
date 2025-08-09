@@ -250,7 +250,7 @@ export default function Navbar({
                   Login
                 </Link>
                 <Link 
-                  href="/register" 
+                  href="/login?mode=register" 
                   className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-sm font-medium shadow-lg hover:shadow-xl"
                 >
                   Register
