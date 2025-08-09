@@ -24,7 +24,7 @@ import { User, UserProfile, ExamResult, Permission, UserPermission } from '@/typ
 
 // Auth Services
 export const authService = {
-  // Kayıt ol
+  // Register
   async register(email: string, password: string, firstName: string, lastName: string): Promise<User> {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -128,7 +128,7 @@ export const authService = {
       return userWithDates;
     } catch (error: unknown) {
       console.error('Login error:', error);
-      throw new Error(error instanceof Error ? error.message : 'Giriş sırasında bir hata oluştu');
+      throw new Error(error instanceof Error ? error.message : 'An error occurred during login');
     }
   },
 
