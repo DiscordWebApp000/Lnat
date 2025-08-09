@@ -202,9 +202,9 @@ export default function QuestionDisplay({
 
   const getDifficultyText = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return 'Kolay';
-      case 'medium': return 'Orta';
-      case 'hard': return 'Zor';
+      case 'easy': return 'Easy';
+      case 'medium': return 'Medium';
+      case 'hard': return 'Hard';
       default: return difficulty;
     }
   };
