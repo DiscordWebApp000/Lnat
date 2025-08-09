@@ -30,7 +30,7 @@ export default function LoginPage() {
         setTimeout(() => router.push('/dashboard'), 1000);
       } else {
         await authService.register(email, password, firstName, lastName);
-        setSuccess('Kayıt başarılı! Giriş yapabilirsiniz.');
+        setSuccess('Registration successful! You can now login.');
         setIsLogin(true);
       }
     } catch (error: unknown) {

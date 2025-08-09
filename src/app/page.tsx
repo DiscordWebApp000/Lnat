@@ -393,12 +393,22 @@ export default function Home() {
             <p className="text-gray-400 mb-6">
               Prepare for the future with AI-powered learning platform
             </p>
-            <div className="flex items-center justify-center gap-6 text-sm text-gray-400">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-400">
               <span>© 2025 LNAT AI Platform</span>
-              <span>•</span>
+              <span className="hidden sm:inline">•</span>
               <span>Powered by Gemini AI</span>
-              <span>•</span>
-              <span>Privacy Policy</span>
+              <span className="hidden sm:inline">•</span>
+              <Link href="/privacy-policy" className="text-blue-400 hover:text-blue-300 transition-colors">
+                Privacy Policy
+              </Link>
+              <span className="hidden sm:inline">•</span>
+              <Link href="/cookie-policy" className="text-blue-400 hover:text-blue-300 transition-colors">
+                Cookie Policy
+              </Link>
+              <span className="hidden sm:inline">•</span>
+              <Link href="/terms-and-conditions" className="text-blue-400 hover:text-blue-300 transition-colors">
+                Terms & Conditions
+              </Link>
             </div>
           </div>
         </div>

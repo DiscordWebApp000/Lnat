@@ -57,10 +57,10 @@ export default function WritingEvaluator() {
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex items-center justify-center">
         <div className="text-center">
           <Lock className="w-16 h-16 text-red-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Giriş Gerekli</h1>
-          <p className="text-gray-600 mb-4">Bu sayfaya erişmek için giriş yapmanız gerekiyor.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Login Required</h1>
+          <p className="text-gray-600 mb-4">You need to login to use this tool.</p>
           <Link href="/login" className="text-purple-600 hover:text-purple-700 font-medium">
-            Giriş Yap →
+            Login →
           </Link>
         </div>
       </div>
@@ -121,8 +121,8 @@ export default function WritingEvaluator() {
       
       setAppState('evaluation');
     } catch (error: unknown) {
-      console.error('Değerlendirme hatası:', error);
-      setErrorMessage(error instanceof Error ? error.message : 'Yazınız değerlendirilirken bir hata oluştu. Lütfen tekrar deneyin.');
+      console.error('Eval uation error:', error);
+      setErrorMessage(error instanceof Error ? error.message : 'An error occurred while evaluating your essay. Please try again.');
       setAppState('error');
     } finally {
       setIsLoading(false);
@@ -242,7 +242,7 @@ export default function WritingEvaluator() {
                       Minimum 100 words recommended
                     </span>
                     <span className="text-sm text-gray-500">
-                      {userText.split(/\s+/).filter(word => word.length > 0).length} kelime
+                      {userText.split(/\s+/).filter(word => word.length > 0).length} words
                     </span>
                   </div>
                 </div>

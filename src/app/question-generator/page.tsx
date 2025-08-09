@@ -27,6 +27,7 @@ export default function SoruUretici() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(new Set());
+  const [originalText, setOriginalText] = useState<string>('');
 
   const handleTimeUpdate = useCallback(() => {
     // Time stats are handled in the parent component
@@ -49,10 +50,10 @@ export default function SoruUretici() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
         <div className="text-center">
           <Lock className="w-16 h-16 text-red-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Giriş Gerekli</h1>
-          <p className="text-gray-600 mb-4">Bu sayfaya erişmek için giriş yapmanız gerekiyor.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Login Required</h1>
+          <p className="text-gray-600 mb-4">You need to login to use this tool.</p>
           <Link href="/login" className="text-green-600 hover:text-green-700 font-medium">
-            Giriş Yap →
+            Login →
           </Link>
         </div>
       </div>
@@ -84,6 +85,7 @@ export default function SoruUretici() {
       const result = await openaiAI.generateQuestions(text, questionCount);
       const allQuestions = result.sections.flatMap(section => section.questions);
       setQuestions(allQuestions);
+      setOriginalText(text); // Store the original text
       setCurrentQuestionIndex(0); // Reset to first question
       setAppState('questions');
     } catch (error: unknown) {
@@ -191,6 +193,7 @@ export default function SoruUretici() {
     setLoadingMessage('');
     setCurrentQuestionIndex(0);
     setFlaggedQuestions(new Set());
+    setOriginalText('');
   };
 
   // Navigation functions for single section
@@ -295,21 +298,62 @@ export default function SoruUretici() {
         )}
 
         {appState === 'questions' && questions.length > 0 && (
-          <QuestionDisplay 
-            questions={questions}
-            currentQuestion={questions[currentQuestionIndex]}
-            onComplete={handleCompleteQuiz}
-            existingAnswers={answers}
-            onAnswerSelect={handleAnswerSelect}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            isLastQuestion={currentQuestionIndex === questions.length - 1}
-            onGoToQuestion={goToQuestion}
-            onToggleFlag={toggleFlag}
-            isFlagged={isFlagged}
-            allQuestions={questions}
-            onTimeUpdate={handleTimeUpdate}
-          />
+          <div>
+            {/* Progress Bar */}
+            <div className="mb-6 bg-white rounded-lg shadow-sm p-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  Question {currentQuestionIndex + 1} / {questions.length}
+                </h3>
+                <span className="text-sm text-gray-600">
+                  {Math.round(((currentQuestionIndex + 1) / questions.length) * 100)}% Completed
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
+                ></div>
+              </div>
+              <div className="mt-2 text-sm text-gray-600">
+                <span>
+                  This exam has {questions.length} questions.
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 text-black">
+              {/* Original Text */}
+              <div className="bg-white rounded-2xl shadow-lg p-4 lg:p-8 order-2 lg:order-1">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  Original Text
+                </h3>
+                <div className="prose max-w-none text-black text-sm lg:text-base">
+                  {originalText}
+                </div>
+              </div>
+
+              {/* Questions */}
+              <div className="order-1 lg:order-2">
+                <QuestionDisplay 
+                  key={`question-${currentQuestionIndex}-${questions[currentQuestionIndex]?.id || 'none'}`}
+                  questions={questions}
+                  currentQuestion={questions[currentQuestionIndex]}
+                  onComplete={handleCompleteQuiz}
+                  existingAnswers={answers}
+                  onAnswerSelect={handleAnswerSelect}
+                  onNext={handleNext}
+                  onPrevious={handlePrevious}
+                  isLastQuestion={currentQuestionIndex === questions.length - 1}
+                  onGoToQuestion={goToQuestion}
+                  onToggleFlag={toggleFlag}
+                  isFlagged={isFlagged}
+                  allQuestions={questions}
+                  onTimeUpdate={handleTimeUpdate}
+                />
+              </div>
+            </div>
+          </div>
         )}
 
         {appState === 'evaluation' && evaluation && (

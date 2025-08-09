@@ -57,10 +57,10 @@ export default function PermissionModal({
                 <LogIn className="w-8 h-8 text-red-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Giriş Yapmanız Gerekli
+                You need to login to use this tool.
               </h3>
               <p className="text-gray-600 mb-6">
-                Bu aracı kullanmak için önce hesabınıza giriş yapmanız gerekiyor.
+                You need to login to use this tool.
               </p>
               <div className="space-y-3">
                 <Link
@@ -68,13 +68,13 @@ export default function PermissionModal({
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
-                  <span>Giriş Yap</span>
+                  <span>Login</span>
                 </Link>
                 <button
                   onClick={onClose}
                   className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  İptal
+                  Cancel
                 </button>
               </div>
             </div>
@@ -85,10 +85,10 @@ export default function PermissionModal({
                 <Lock className="w-8 h-8 text-orange-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Permission Required
+                Permission Required!
               </h3>
               <p className="text-gray-600 mb-6">
-                You need to be granted permission to use this tool.
+                You need to be granted permission to use this tool!
               </p>
               <div className="space-y-3">
                 <Link
@@ -96,13 +96,13 @@ export default function PermissionModal({
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors"
                 >
                   <User className="w-4 h-4" />
-                  <span>Back to Dashboard</span>
+                  <span>Back to Dashboard!</span>
                 </Link>
                 <button
                   onClick={onClose}
                   className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  İptal
+                  Cancel
                 </button>
               </div>
             </div>
@@ -113,10 +113,10 @@ export default function PermissionModal({
                 <Shield className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Yetkiniz Var!
+                You have permission!
               </h3>
               <p className="text-gray-600 mb-6">
-                Bu aracı kullanmaya hazırsınız. Hemen başlayabilirsiniz.
+                You can now use this tool.
               </p>
               <div className="space-y-3">
                 <Link
@@ -124,13 +124,13 @@ export default function PermissionModal({
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-colors"
                 >
                   <ArrowRight className="w-4 h-4" />
-                  <span>Başla</span>
+                  <span>Start</span>
                 </Link>
                 <button
                   onClick={onClose}
                   className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  İptal
+                  Cancel
                 </button>
               </div>
             </div>

@@ -86,10 +86,10 @@ export default function MetinSoruAnalizi() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <Lock className="w-16 h-16 text-red-600 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Giriş Gerekli</h1>
-          <p className="text-gray-600 mb-4">Bu sayfaya erişmek için giriş yapmanız gerekiyor.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Login Required</h1>
+          <p className="text-gray-600 mb-4">You need to login to use this tool.</p>
           <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-            Giriş Yap →
+            Login →
           </Link>
         </div>
       </div>
