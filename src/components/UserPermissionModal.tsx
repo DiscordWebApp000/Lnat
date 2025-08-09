@@ -42,7 +42,7 @@ export default function UserPermissionModal({
   if (!isOpen) return null;
 
   const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('tr-TR', {
+      return new Intl.DateTimeFormat('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -92,74 +92,74 @@ export default function UserPermissionModal({
       onClose();
     } catch (error) {
       console.error('Error updating permissions:', error);
-      setError('Yetkiler güncellenirken bir hata oluştu.');
+      setError('An error occurred while updating permissions.');
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-red-600 to-pink-600 text-white p-6">
+        <div className="bg-gradient-to-r from-red-600 to-pink-600 text-white p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <UserIcon className="w-8 h-8 text-white" />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <UserIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-lg sm:text-2xl font-bold">
                   {user.firstName} {user.lastName}
                 </h2>
-                <p className="text-red-100">Yetki Yönetimi</p>
+                <p className="text-red-100 text-xs sm:text-sm">Permission Management</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+              className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
             >
-              <X className="w-6 h-6" />
+              <X className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 max-h-[60vh] overflow-y-auto">
           {/* User Info */}
-          <div className="bg-gray-50 rounded-xl p-4 mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-gray-500" />
-                <div>
-                  <p className="text-sm text-gray-500">Email</p>
-                  <p className="font-medium">{user.email}</p>
+          <div className="bg-gray-50 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs sm:text-sm text-gray-500">Email</p>
+                  <p className="font-medium text-black text-sm sm:text-base truncate">{user.email}</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-gray-500" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
                 <div>
-                  <p className="text-sm text-gray-500">Üye Olma</p>
-                  <p className="font-medium">{formatDate(user.createdAt)}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Member Since</p>
+                  <p className="font-medium text-black text-sm sm:text-base">{formatDate(user.createdAt)}</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-gray-500" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
                 <div>
-                  <p className="text-sm text-gray-500">Son Giriş</p>
-                  <p className="font-medium">{formatDate(user.lastLoginAt)}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Last Login</p>
+                  <p className="font-medium text-black text-sm sm:text-base">{formatDate(user.lastLoginAt)}</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3">
-                <Shield className="w-5 h-5 text-gray-500" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
                 <div>
-                  <p className="text-sm text-gray-500">Rol</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Role</p>
                   <div className="flex items-center gap-2">
-                    {user.role === 'admin' && <Crown className="w-4 h-4 text-red-600" />}
-                    <p className="font-medium capitalize">{user.role}</p>
+                    {user.role === 'admin' && <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-red-600" />}
+                    <p className="font-medium capitalize text-black text-sm sm:text-base">{user.role}</p>
                   </div>
                 </div>
               </div>
@@ -167,16 +167,16 @@ export default function UserPermissionModal({
           </div>
 
           {/* Current vs New Permissions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
             {/* Current Permissions */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <Key className="w-5 h-5 text-gray-600" />
-                Mevcut Yetkiler
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2">
+                <Key className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                Current Permissions
               </h3>
               <div className="space-y-2">
                 {user.permissions.length === 0 ? (
-                  <p className="text-gray-500 text-sm">Henüz yetki verilmemiş</p>
+                  <p className="text-gray-500 text-xs sm:text-sm">No permissions assigned yet</p>
                 ) : (
                   user.permissions.map(permissionId => {
                     const permission = permissions.find(p => p.id === permissionId);
@@ -185,8 +185,8 @@ export default function UserPermissionModal({
                         key={permissionId}
                         className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg"
                       >
-                        <CheckCircle className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm font-medium text-blue-800">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                        <span className="text-xs sm:text-sm font-medium text-blue-800">
                           {permission?.name || permissionId}
                         </span>
                       </div>
@@ -198,18 +198,18 @@ export default function UserPermissionModal({
 
             {/* New Permissions */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <Key className="w-5 h-5 text-red-600" />
-                Yeni Yetkiler
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2">
+                <Key className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                New Permissions
                 {hasChanges() && (
                   <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
-                    Değişiklik var
+                    Changes available
                   </span>
                 )}
               </h3>
               <div className="space-y-2">
                 {localPermissions.length === 0 ? (
-                  <p className="text-gray-500 text-sm">Yetki seçilmemiş</p>
+                  <p className="text-gray-500 text-xs sm:text-sm">No permissions selected</p>
                 ) : (
                   localPermissions.map(permissionId => {
                     const permission = permissions.find(p => p.id === permissionId);
@@ -218,8 +218,8 @@ export default function UserPermissionModal({
                         key={permissionId}
                         className="flex items-center gap-2 p-2 bg-green-50 rounded-lg"
                       >
-                        <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span className="text-sm font-medium text-green-800">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                        <span className="text-xs sm:text-sm font-medium text-green-800">
                           {permission?.name || permissionId}
                         </span>
                       </div>
@@ -232,52 +232,52 @@ export default function UserPermissionModal({
 
           {/* Permission Selection */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Yetkiler</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Permissions</h3>
             {permissions.length === 0 ? (
-              <div className="text-center py-8">
-                <Key className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 mb-2">Henüz yetki tanımlanmamış</p>
-                <p className="text-sm text-gray-500">Sistemde tanımlı yetki bulunmuyor.</p>
+              <div className="text-center py-6 sm:py-8">
+                <Key className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                <p className="text-gray-600 mb-2 text-sm sm:text-base">No permissions defined yet</p>
+                <p className="text-xs sm:text-sm text-gray-500">No permissions defined in the system.</p>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {permissions.map(permission => {
                   const isSelected = localPermissions.includes(permission.id);
                   return (
                     <div
                       key={permission.id}
                       onClick={() => togglePermission(permission.id)}
-                      className={`p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                      className={`p-3 sm:p-4 border-2 rounded-xl cursor-pointer transition-all ${
                         isSelected
                           ? 'border-green-500 bg-green-50 shadow-md'
                           : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
                             isSelected ? 'bg-green-500' : 'bg-gray-200'
                           }`}>
                             {isSelected ? (
-                              <CheckCircle className="w-5 h-5 text-white" />
+                              <CheckCircle className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
                             ) : (
-                              <XCircle className="w-5 h-5 text-gray-500" />
+                              <XCircle className="w-3 h-3 sm:w-5 sm:h-5 text-gray-500" />
                             )}
                           </div>
-                          <div>
-                            <h4 className={`font-semibold ${
+                          <div className="flex-1 min-w-0">
+                            <h4 className={`font-semibold text-sm sm:text-base ${
                               isSelected ? 'text-green-900' : 'text-gray-900'
                             }`}>
                               {permission.name}
                             </h4>
-                            <p className={`text-sm ${
+                            <p className={`text-xs sm:text-sm ${
                               isSelected ? 'text-green-700' : 'text-gray-600'
                             }`}>
                               {permission.description}
                             </p>
                           </div>
                         </div>
-                        <Key className={`w-5 h-5 ${
+                        <Key className={`w-4 h-4 sm:w-5 sm:h-5 ${
                           isSelected ? 'text-green-600' : 'text-gray-400'
                         }`} />
                       </div>
@@ -290,47 +290,47 @@ export default function UserPermissionModal({
 
           {/* Error */}
           {error && (
-            <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
+            <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
               <div className="flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-red-600" />
-                <p className="text-red-700 text-sm">{error}</p>
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                <p className="text-red-700 text-xs sm:text-sm">{error}</p>
               </div>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500">
+        <div className="border-t border-gray-200 p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+            <div className="text-xs sm:text-sm text-gray-500">
               {hasChanges() && (
                 <span className="flex items-center gap-2 text-orange-600">
-                  <AlertCircle className="w-4 h-4" />
-                  Kaydedilmemiş değişiklikler var
+                  <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Unsaved changes available
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
               <button
                 onClick={onClose}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base"
               >
-                İptal
+                Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={!hasChanges() || saving}
-                className="flex items-center gap-2 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
               >
                 {saving ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    <span>Kaydediliyor...</span>
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Saving...</span>
                   </>
                 ) : (
                   <>
-                    <Save className="w-4 h-4" />
-                    <span>Değişiklikleri Kaydet</span>
+                    <Save className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span>Save Changes</span>
                   </>
                 )}
               </button>

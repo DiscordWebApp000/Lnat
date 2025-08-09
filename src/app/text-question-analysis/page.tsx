@@ -35,29 +35,37 @@ export default function MetinSoruAnalizi() {
   const [analyzedText, setAnalyzedText] = useState('');
 
   const handleTimeUpdate = useCallback((questionTimes: Record<number, number>, totalTime: number) => {
+    console.log('🕐 handleTimeUpdate called with:', { questionTimes, totalTime });
+    
     // Global timeStats'i güncelle
     setTimeStats((prev: {questionTimes: Record<number, number>; totalTime: number; averageTime: number} | null) => {
       if (!prev) {
-        return {
+        const newStats = {
           questionTimes: questionTimes,
           totalTime: totalTime,
           averageTime: Object.keys(questionTimes).length > 0 
             ? Math.round(Object.values(questionTimes).reduce((a, b) => a + b, 0) / Object.keys(questionTimes).length)
             : 0
         };
+        console.log('🕐 First time stats:', newStats);
+        return newStats;
       }
       
       const updatedQuestionTimes = { ...prev.questionTimes, ...questionTimes };
-      const updatedTotalTime = totalTime;
+      // Calculate total time by summing all question times
+      const updatedTotalTime = Object.values(updatedQuestionTimes).reduce((sum, time) => sum + time, 0);
       const updatedAverageTime = Object.keys(updatedQuestionTimes).length > 0 
-        ? Math.round(Object.values(updatedQuestionTimes).reduce((a, b) => a + b, 0) / Object.keys(updatedQuestionTimes).length)
+        ? Math.round(updatedTotalTime / Object.keys(updatedQuestionTimes).length)
         : 0;
       
-      return {
+      const newStats = {
         questionTimes: updatedQuestionTimes,
         totalTime: updatedTotalTime,
         averageTime: updatedAverageTime
       };
+      
+      console.log('🕐 Updated time stats:', newStats);
+      return newStats;
     });
   }, []);
 
@@ -67,7 +75,7 @@ export default function MetinSoruAnalizi() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Yükleniyor...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -232,16 +240,20 @@ export default function MetinSoruAnalizi() {
       // Zaman istatistiklerini birleştir
       let finalTimeStats = timeStatsData;
       if (timeStatsData) {
+        console.log('🕐 handleCompleteQuiz - timeStatsData:', timeStatsData);
         setTimeStats((prev: {questionTimes: Record<number, number>; totalTime: number; averageTime: number} | null) => {
           if (!prev) {
             finalTimeStats = timeStatsData;
+            console.log('🕐 handleCompleteQuiz - First time stats:', finalTimeStats);
             return timeStatsData;
           }
           
+          console.log('🕐 handleCompleteQuiz - Previous stats:', prev);
           const combinedQuestionTimes = { ...prev.questionTimes, ...timeStatsData.questionTimes };
-          const combinedTotalTime = prev.totalTime + timeStatsData.totalTime;
+          // Calculate total time by summing all question times
+          const combinedTotalTime = Object.values(combinedQuestionTimes).reduce((sum, time) => sum + time, 0);
           const combinedAverageTime = Object.keys(combinedQuestionTimes).length > 0 
-            ? Math.round(Object.values(combinedQuestionTimes).reduce((a, b) => a + b, 0) / Object.keys(combinedQuestionTimes).length)
+            ? Math.round(combinedTotalTime / Object.keys(combinedQuestionTimes).length)
             : 0;
           
           finalTimeStats = {
@@ -250,6 +262,7 @@ export default function MetinSoruAnalizi() {
             averageTime: combinedAverageTime
           };
           
+          console.log('🕐 handleCompleteQuiz - Combined time stats:', finalTimeStats);
           return finalTimeStats;
         });
       }
@@ -478,20 +491,20 @@ export default function MetinSoruAnalizi() {
       />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Progress Indicator */}
         <div className="mb-8">
-          <div className="flex items-center justify-center gap-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
             <div className={`flex items-center gap-2 ${appState === 'input' ? 'text-green-600' : 'text-gray-400'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                 appState === 'input' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600'
               }`}>
                 1
               </div>
-              <span className="font-medium">Text Input</span>
+              <span className="font-medium text-sm sm:text-base">Text Input</span>
             </div>
             
-            <div className={`w-16 h-1 ${appState === 'questions' || appState === 'review' || appState === 'evaluation' ? 'bg-green-600' : 'bg-gray-200'}`}></div>
+            <div className={`hidden sm:block w-16 h-1 ${appState === 'questions' || appState === 'review' || appState === 'evaluation' ? 'bg-green-600' : 'bg-gray-200'}`}></div>
             
             <div className={`flex items-center gap-2 ${appState === 'questions' ? 'text-green-600' : appState === 'review' || appState === 'evaluation' ? 'text-green-600' : 'text-gray-400'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
@@ -499,10 +512,10 @@ export default function MetinSoruAnalizi() {
               }`}>
                 2
               </div>
-              <span className="font-medium">Questions</span>
+              <span className="font-medium text-sm sm:text-base">Questions</span>
             </div>
             
-            <div className={`w-16 h-1 ${appState === 'review' || appState === 'evaluation' ? 'bg-green-600' : 'bg-gray-200'}`}></div>
+            <div className={`hidden sm:block w-16 h-1 ${appState === 'review' || appState === 'evaluation' ? 'bg-green-600' : 'bg-gray-200'}`}></div>
             
             <div className={`flex items-center gap-2 ${appState === 'review' ? 'text-green-600' : appState === 'evaluation' ? 'text-green-600' : 'text-gray-400'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
@@ -510,10 +523,10 @@ export default function MetinSoruAnalizi() {
               }`}>
                 3
               </div>
-              <span className="font-medium">Review</span>
+              <span className="font-medium text-sm sm:text-base">Review</span>
             </div>
             
-            <div className={`w-16 h-1 ${appState === 'evaluation' ? 'bg-green-600' : 'bg-gray-200'}`}></div>
+            <div className={`hidden sm:block w-16 h-1 ${appState === 'evaluation' ? 'bg-green-600' : 'bg-gray-200'}`}></div>
             
             <div className={`flex items-center gap-2 ${appState === 'evaluation' ? 'text-green-600' : 'text-gray-400'}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
@@ -521,7 +534,7 @@ export default function MetinSoruAnalizi() {
               }`}>
                 4
               </div>
-              <span className="font-medium">Results</span>
+              <span className="font-medium text-sm sm:text-base">Results</span>
             </div>
           </div>
         </div>
@@ -562,19 +575,19 @@ export default function MetinSoruAnalizi() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-8 text-black">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 text-black">
               {/* Original Text */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 ">
+              <div className="bg-white rounded-2xl shadow-lg p-4 lg:p-8 order-2 lg:order-1">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">
                   Section {currentSectionIndex + 1} - Text
                 </h3>
-                <div className="prose max-w-none text-black">
+                <div className="prose max-w-none text-black text-sm lg:text-base">
                   {analyzedText}
                 </div>
               </div>
 
               {/* Questions */}
-              <div>
+              <div className="order-1 lg:order-2">
                 <QuestionDisplay 
                   key={`section-${currentSectionIndex}-question-${targetQuestionIndex}-${questions[targetQuestionIndex]?.id || 'none'}`}
                   questions={questions}
@@ -625,22 +638,22 @@ export default function MetinSoruAnalizi() {
               </div>
 
               {/* Summary Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-blue-600">{summary.total}</div>
-                  <div className="text-sm text-blue-700">Total Questions</div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 md:p-4 text-center">
+                  <div className="text-xl md:text-2xl font-bold text-blue-600">{summary.total}</div>
+                  <div className="text-xs md:text-sm text-blue-700">Total Questions</div>
                 </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-green-600">{summary.answered}</div>
-                  <div className="text-sm text-green-700">Answered</div>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 md:p-4 text-center">
+                  <div className="text-xl md:text-2xl font-bold text-green-600">{summary.answered}</div>
+                  <div className="text-xs md:text-sm text-green-700">Answered</div>
                 </div>
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-red-600">{summary.unanswered}</div>
-                  <div className="text-sm text-red-700">Unanswered</div>
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 md:p-4 text-center">
+                  <div className="text-xl md:text-2xl font-bold text-red-600">{summary.unanswered}</div>
+                  <div className="text-xs md:text-sm text-red-700">Unanswered</div>
                 </div>
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-orange-600">{summary.flagged}</div>
-                  <div className="text-sm text-orange-700">Flagged</div>
+                <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 md:p-4 text-center">
+                  <div className="text-xl md:text-2xl font-bold text-orange-600">{summary.flagged}</div>
+                  <div className="text-xs md:text-sm text-orange-700">Flagged</div>
                 </div>
               </div>
 
@@ -732,10 +745,10 @@ export default function MetinSoruAnalizi() {
               )}
 
               {/* Action Buttons */}
-              <div className="flex justify-center gap-4 pt-6 border-t">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-6 border-t">
                 <button
                   onClick={handleStartAnalysis}
-                  className={`px-8 py-3 rounded-lg font-medium transition-colors ${
+                  className={`px-6 sm:px-8 py-3 rounded-lg font-medium transition-colors text-sm sm:text-base ${
                     summary.unanswered > 0
                       ? 'bg-orange-600 text-white hover:bg-orange-700'
                       : 'bg-green-600 text-white hover:bg-green-700'
@@ -749,7 +762,7 @@ export default function MetinSoruAnalizi() {
                 </button>
                 <button
                   onClick={() => setAppState('questions')}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 sm:px-8 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base"
                 >
                   Continue Answering
                 </button>
@@ -771,22 +784,22 @@ export default function MetinSoruAnalizi() {
               return (
                 <div className="space-y-6">
                   {/* Summary Statistics */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div className="bg-blue-50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-blue-600">{summary.total}</div>
-                      <div className="text-sm text-blue-600">Total Questions</div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+                    <div className="bg-blue-50 p-3 md:p-4 rounded-lg text-center">
+                      <div className="text-xl md:text-2xl font-bold text-blue-600">{summary.total}</div>
+                      <div className="text-xs md:text-sm text-blue-600">Total Questions</div>
                     </div>
-                    <div className="bg-green-50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-green-600">{summary.answered}</div>
-                      <div className="text-sm text-green-600">Answered</div>
+                    <div className="bg-green-50 p-3 md:p-4 rounded-lg text-center">
+                      <div className="text-xl md:text-2xl font-bold text-green-600">{summary.answered}</div>
+                      <div className="text-xs md:text-sm text-green-600">Answered</div>
                     </div>
-                    <div className="bg-red-50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-red-600">{summary.unanswered}</div>
-                      <div className="text-sm text-red-600">Unanswered</div>
+                    <div className="bg-red-50 p-3 md:p-4 rounded-lg text-center">
+                      <div className="text-xl md:text-2xl font-bold text-red-600">{summary.unanswered}</div>
+                      <div className="text-xs md:text-sm text-red-600">Unanswered</div>
                     </div>
-                    <div className="bg-orange-50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-orange-600">{summary.flagged}</div>
-                      <div className="text-sm text-orange-600">Flagged</div>
+                    <div className="bg-orange-50 p-3 md:p-4 rounded-lg text-center">
+                      <div className="text-xl md:text-2xl font-bold text-orange-600">{summary.flagged}</div>
+                      <div className="text-xs md:text-sm text-orange-600">Flagged</div>
                     </div>
                   </div>
 
@@ -917,7 +930,7 @@ export default function MetinSoruAnalizi() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex justify-center gap-4 pt-6 border-t">
+                  <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-6 border-t">
                     <button
                       onClick={async () => {
                         // Check for unanswered questions and show warning
@@ -957,7 +970,7 @@ export default function MetinSoruAnalizi() {
                           setIsLoading(false);
                         }
                       }}
-                      className={`px-6 py-3 rounded-lg transition-colors ${
+                      className={`px-6 sm:px-8 py-3 rounded-lg transition-colors text-sm sm:text-base ${
                         summary.unanswered > 0
                           ? 'bg-orange-600 text-white hover:bg-orange-700'
                           : 'bg-green-600 text-white hover:bg-green-700'
@@ -973,7 +986,7 @@ export default function MetinSoruAnalizi() {
                     </button>
                     <button
                       onClick={() => setAppState('questions')}
-                      className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="px-6 sm:px-8 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base"
                     >
                       Continue Answering
                     </button>
@@ -985,7 +998,7 @@ export default function MetinSoruAnalizi() {
                         // For now, just navigate back to questions
                         setAppState('questions');
                       }}
-                      className="px-6 py-3 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors inline-flex items-center gap-2"
+                      className="px-6 sm:px-8 py-3 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors inline-flex items-center gap-2 text-sm sm:text-base"
                     >
                       <List className="w-4 h-4" />
                       Quick Overview
@@ -1007,17 +1020,17 @@ export default function MetinSoruAnalizi() {
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Bir Hata Oluştu</h2>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">{errorMessage}</p>
               
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <button
                   onClick={handleRetry}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm sm:text-base"
                 >
                   <RefreshCw className="w-5 h-5" />
                   Tekrar Dene
                 </button>
                 <button
                   onClick={handleRestart}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base"
                 >
                   Yeni Başla
                 </button>
@@ -1039,7 +1052,7 @@ export default function MetinSoruAnalizi() {
         {/* Professional Loading Overlay */}
         {isLoading && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50 animate-fadeIn">
-            <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all animate-slideUp">
+            <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all animate-slideUp">
               <div className="text-center">
                 {/* Professional Spinner */}
                 <div className="mb-6 flex justify-center">

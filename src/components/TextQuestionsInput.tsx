@@ -289,10 +289,10 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <div className="flex items-center gap-2 mb-6">
-        <Split className="w-6 h-6 text-green-600" />
-        <h2 className="text-2xl font-bold text-gray-800">Text & Question Analysis</h2>
+    <div className="w-full max-w-6xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg">
+      <div className="flex items-center gap-2 mb-4 sm:mb-6">
+        <Split className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Text & Question Analysis</h2>
       </div>
       
       {/* Dosya Yükleme Alanı - Ayrı Component */}
@@ -304,40 +304,42 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
       {/* Yüklenen İçerikler Listesi */}
       {parsedContents.length > 0 && (
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-              <File className="w-5 h-5" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 gap-3">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+              <File className="w-4 h-4 sm:w-5 sm:h-5" />
               Uploaded Contents ({parsedContents.length})
             </h3>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
               <span className="text-sm text-gray-600">
                 {selectedContents.size} / {parsedContents.length} selected
               </span>
-              <button
-                onClick={selectAllContents}
-                className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-              >
-                Select All
-              </button>
-              <button
-                onClick={deselectAllContents}
-                className="px-3 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
-              >
-                Clear Selection
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={selectAllContents}
+                  className="px-2 sm:px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                >
+                  Select All
+                </button>
+                <button
+                  onClick={deselectAllContents}
+                  className="px-2 sm:px-3 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+                >
+                  Clear Selection
+                </button>
+              </div>
             </div>
           </div>
           <div className="space-y-2">
             {parsedContents.map((content, index) => (
               <div
                 key={content.id}
-                className={`flex items-center justify-between p-3 rounded-lg border-2 transition-colors ${
+                className={`flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-lg border-2 transition-colors gap-3 ${
                   selectedContents.has(index)
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 w-full sm:w-auto">
                   {/* Checkbox */}
                   <input
                     type="checkbox"
@@ -353,14 +355,14 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
                   }`}>
                     {index + 1}
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-800">{content.title}</p>
-                    <p className="text-sm text-gray-500">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-gray-800 text-sm sm:text-base">{content.title}</p>
+                    <p className="text-xs sm:text-sm text-gray-500">
                       {content.text.length} characters text, {content.questions.length} characters question
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
                   {selectedContents.has(index) && (
                     <span className="text-sm text-blue-600 font-medium">Selected</span>
                   )}
@@ -378,11 +380,11 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
           
           {/* Navigasyon Butonları */}
           {parsedContents.length > 1 && (
-            <div className="flex justify-between items-center mt-4 p-3 bg-gray-50 rounded-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-4 p-3 bg-gray-50 rounded-lg gap-3">
               <button
                 onClick={handlePreviousContent}
                 disabled={currentContentIndex === 0}
-                className="px-4 py-2 text-sm bg-white text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-gray-200"
+                className="px-4 py-2 text-sm bg-white text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-gray-200 w-full sm:w-auto"
               >
                 ← Previous Content
               </button>
@@ -392,7 +394,7 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
               <button
                 onClick={handleNextContent}
                 disabled={currentContentIndex === parsedContents.length - 1}
-                className="px-4 py-2 text-sm bg-white text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-gray-200"
+                className="px-4 py-2 text-sm bg-white text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border border-gray-200 w-full sm:w-auto"
               >
                 Next Content →
               </button>
@@ -413,7 +415,7 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
         </div>
       )}
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         {/* Combined Text Input */}
         <div>
           <label htmlFor="combinedText" className="block text-sm font-medium text-gray-700 mb-2">
@@ -424,7 +426,7 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
             value={combinedText}
             onChange={(e) => setCombinedText(e.target.value)}
             placeholder="Paste text and questions here. AI will automatically separate them..."
-            className="w-full h-96 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-black"
+            className="w-full h-64 sm:h-96 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-black text-sm sm:text-base"
             required
             disabled={isLoading || isProcessing}
           />
@@ -436,11 +438,11 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
         </div>
 
         <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-          <h3 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+          <h3 className="font-semibold text-green-800 mb-2 flex items-center gap-2 text-sm sm:text-base">
             <BookOpen className="w-4 h-4" />
             How it works?
           </h3>
-          <ul className="text-sm text-green-700 space-y-1">
+          <ul className="text-xs sm:text-sm text-green-700 space-y-1">
             <li>• Automatically recognizes and separates LNAT format files</li>
             <li>• Supports &quot;Passage 1 – Title &amp; Questions&quot; format</li>
             <li>• Finds and matches each passage &amp; own questions</li>
@@ -453,7 +455,7 @@ export default function TextQuestionsInput({ onAnalyze, isLoading }: TextQuestio
         <button
           type="submit"
           disabled={!combinedText.trim() || isLoading || isProcessing}
-          className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
         >
           {isLoading ? (
             <>

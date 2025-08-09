@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       if (isLogin) {
         await authService.login(email, password);
-        setSuccess('Giriş başarılı! Yönlendiriliyorsunuz...');
+        setSuccess('Login successful! You are being redirected...');
         setTimeout(() => router.push('/dashboard'), 1000);
       } else {
         await authService.register(email, password, firstName, lastName);
@@ -38,21 +38,21 @@ export default function LoginPage() {
         // Firebase hata mesajlarını Türkçe'ye çevir
         let errorMessage = error.message;
         if (errorMessage.includes('auth/email-already-in-use')) {
-          errorMessage = 'Bu email adresi zaten kullanımda. Giriş yapmayı deneyin.';
+          errorMessage = 'This email address is already in use. Try logging in.';
         } else if (errorMessage.includes('auth/weak-password')) {
-          errorMessage = 'Şifre çok zayıf. En az 6 karakter olmalı.';
+          errorMessage = 'Password is too weak. It should be at least 6 characters long.';
         } else if (errorMessage.includes('auth/invalid-email')) {
-          errorMessage = 'Geçersiz email adresi.';
+          errorMessage = 'Invalid email address.';
         } else if (errorMessage.includes('auth/user-not-found')) {
-          errorMessage = 'Bu email ile kayıtlı kullanıcı bulunamadı.';
+          errorMessage = 'User with this email address not found.';
         } else if (errorMessage.includes('auth/wrong-password')) {
-          errorMessage = 'Yanlış şifre.';
+          errorMessage = 'Wrong password.';
         } else if (errorMessage.includes('auth/too-many-requests')) {
-          errorMessage = 'Çok fazla deneme. Lütfen daha sonra tekrar deneyin.';
+          errorMessage = 'Too many attempts. Please try again later.';
         }
         setError(errorMessage);
       } else {
-        setError('Bir hata oluştu');
+        setError('An error occurred');
       }
     } finally {
       setLoading(false);
@@ -61,24 +61,24 @@ export default function LoginPage() {
 
   const handlePasswordReset = async () => {
     if (!email) {
-      setError('Şifre sıfırlama için email adresinizi girin');
+      setError('Enter your email address to reset your password');
       return;
     }
 
     try {
       await authService.resetPassword(email);
-      setSuccess('Şifre sıfırlama emaili gönderildi!');
+      setSuccess('Password reset email sent!');
     } catch (error: unknown) {
       if (error instanceof Error) {
         let errorMessage = error.message;
         if (errorMessage.includes('auth/user-not-found')) {
-          errorMessage = 'Bu email ile kayıtlı kullanıcı bulunamadı.';
+          errorMessage = 'User with this email address not found.';
         } else if (errorMessage.includes('auth/invalid-email')) {
-          errorMessage = 'Geçersiz email adresi.';
+          errorMessage = 'Invalid email address.';
         }
         setError(errorMessage);
       } else {
-        setError('Şifre sıfırlama hatası');
+        setError('Password reset error');
       }
     }
   };
@@ -90,10 +90,10 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {isLogin ? 'Giriş Yap' : 'Kayıt Ol'}
+            {isLogin ? 'Login' : 'Register'}
           </h1>
           <p className="text-gray-600">
-            {isLogin ? 'Hesabınıza giriş yapın' : 'Yeni hesap oluşturun'}
+            {isLogin ? 'Login to your account' : 'Create a new account'}
           </p>
         </div>
 
@@ -107,7 +107,7 @@ export default function LoginPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Ad
+                      First Name
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -116,14 +116,14 @@ export default function LoginPage() {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
-                        placeholder="Adınız"
+                        placeholder="Your First Name"
                         required
                       />
                     </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Soyad
+                        Last Name
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -132,7 +132,7 @@ export default function LoginPage() {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
-                        placeholder="Soyadınız"
+                        placeholder="Your Last Name"
                         required
                       />
                     </div>
@@ -160,7 +160,7 @@ export default function LoginPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Şifre
+                Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -189,7 +189,7 @@ export default function LoginPage() {
                   onClick={handlePasswordReset}
                   className="text-sm text-green-600 hover:text-green-700"
                 >
-                  Şifremi unuttum
+                  Forgot Password
                 </button>
               </div>
             )}
@@ -199,7 +199,7 @@ export default function LoginPage() {
                 <p className="text-red-700 text-sm">{error}</p>
                 {error.includes('zaten kullanımda') && (
                   <p className="text-red-600 text-xs mt-2">
-                    💡 Bu email ile giriş yapmayı deneyin veya farklı bir email kullanın.
+                    💡 Try logging in with this email or use a different email.
                   </p>
                 )}
               </div>
@@ -221,17 +221,17 @@ export default function LoginPage() {
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  {isLogin ? 'Giriş yapılıyor...' : 'Kayıt olunuyor...'}
+                  {isLogin ? 'Logging in...' : 'Registering...'}
                 </div>
               ) : (
-                isLogin ? 'Giriş Yap' : 'Kayıt Ol'
+                isLogin ? 'Login' : 'Register'
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              {isLogin ? 'Hesabınız yok mu?' : 'Zaten hesabınız var mı?'}
+              {isLogin ? 'Don\'t have an account?' : 'Already have an account?'}
               <button
                 onClick={() => {
                   setIsLogin(!isLogin);
@@ -240,7 +240,7 @@ export default function LoginPage() {
                 }}
                 className="ml-1 text-green-600 hover:text-green-700 font-medium"
               >
-                {isLogin ? 'Kayıt olun' : 'Giriş yapın'}
+                {isLogin ? 'Register' : 'Login'}
               </button>
             </p>
           </div>

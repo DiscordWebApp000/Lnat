@@ -1,19 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { authService } from '@/lib/firebase-services';
 import { 
-  ArrowLeft, 
   LogOut, 
   BookOpen, 
   PenTool, 
   SplitSquareVertical,
   Brain,
   BarChart3,
-  Shield
+  Shield,
+  Menu,
+  X
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -28,16 +29,17 @@ export default function Navbar({
   title, 
   description, 
   showBackButton = false, 
-  backUrl = '/',
 }: NavbarProps) {
   const { currentUser } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
       await authService.logout();
       router.push('/');
+      setIsMobileMenuOpen(false);
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -149,15 +151,7 @@ export default function Navbar({
         <div className="flex items-center justify-between h-16">
           {/* Left side */}
           <div className="flex items-center gap-4">
-            {showBackButton && (
-              <Link 
-                href={backUrl} 
-                className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span className="text-sm font-medium">Back</span>
-              </Link>
-            )}
+            
             
             <Link href="/" className="flex items-center gap-3 group">
               <div className={`w-10 h-10 ${colorClass} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-all duration-200 ${showBackButton ? 'ml-2' : ''}`}>
@@ -173,8 +167,8 @@ export default function Navbar({
           
           {/* Right side */}
           <div className="flex items-center gap-3">
-            {/* Navigation Links */}
-            {pathname !== '/' && currentUser && (
+            {/* Navigation Links - Desktop */}
+            {currentUser && (
               <nav className="hidden md:flex items-center gap-1">
                 <Link 
                   href="/dashboard" 
@@ -205,7 +199,7 @@ export default function Navbar({
             {/* User Section */}
             {currentUser ? (
               <div className="flex items-center gap-2">
-                {/* User Info */}
+                {/* User Info - Desktop */}
                 <Link 
                   href="/dashboard"
                   className="hidden sm:flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-200 cursor-pointer"
@@ -221,15 +215,29 @@ export default function Navbar({
                   </div>
                 </Link>
 
-                {/* Logout Button - Hide on homepage */}
+                {/* Logout Button - Desktop */}
                 {pathname !== '/' && (
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+                    className="hidden sm:flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
                     title="Logout"
                   >
                     <LogOut className="w-4 h-4" />
-                    <span className="hidden sm:inline text-sm font-medium">Logout</span>
+                    <span className="text-sm font-medium">Logout</span>
+                  </button>
+                )}
+
+                {/* Mobile Menu Button */}
+                {currentUser && (
+                  <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all duration-200"
+                  >
+                    {isMobileMenuOpen ? (
+                      <X className="w-5 h-5" />
+                    ) : (
+                      <Menu className="w-5 h-5" />
+                    )}
                   </button>
                 )}
               </div>
@@ -251,6 +259,66 @@ export default function Navbar({
             )}
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && currentUser && (
+          <div className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-md">
+            <div className="px-4 py-3 space-y-2">
+              {/* User Info - Mobile */}
+              <div className="flex items-center gap-3 px-3 py-2 bg-gray-50 rounded-lg">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-white">
+                    {currentUser.firstName.charAt(0)}{currentUser.lastName.charAt(0)}
+                  </span>
+                </div>
+                <div className="text-sm">
+                  <span className="font-medium text-gray-900">{currentUser.firstName} {currentUser.lastName}</span>
+                  <div className="text-xs text-gray-500">{currentUser.role}</div>
+                </div>
+              </div>
+
+              {/* Navigation Links - Mobile */}
+              <nav className="space-y-1">
+                <Link 
+                  href="/dashboard" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    pathname === '/dashboard' 
+                      ? 'text-green-600 bg-green-50' 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  <BarChart3 className="w-4 h-4" />
+                  Dashboard
+                </Link>
+                
+                {currentUser.role === 'admin' && (
+                  <Link 
+                    href="/admin" 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                      pathname === '/admin' 
+                        ? 'text-red-600 bg-red-50' 
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Shield className="w-4 h-4" />
+                    Admin Panel
+                  </Link>
+                )}
+              </nav>
+
+              {/* Logout Button - Mobile */}
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-3 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200 text-sm font-medium"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

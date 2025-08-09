@@ -134,17 +134,17 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative z-[10000]">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-2 sm:p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[95vh] sm:max-h-[90vh] overflow-y-auto relative z-[10000]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <User className="w-5 h-5 text-blue-600" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <User className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Edit Profile</h2>
-              <p className="text-sm text-gray-600">Update your personal information</p>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900">Edit Profile</h2>
+              <p className="text-xs sm:text-sm text-gray-600">Update your personal information</p>
             </div>
           </div>
           <button
@@ -152,37 +152,37 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
             disabled={isLoading}
             className="p-2 text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-6">
           {/* Success Message */}
           {success && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-600" />
-                <p className="text-green-800 font-medium">{success}</p>
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                <p className="text-green-800 font-medium text-sm sm:text-base">{success}</p>
               </div>
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
               <div className="flex items-center gap-2">
-                <AlertCircle className="w-5 h-5 text-red-600" />
-                <p className="text-red-800 font-medium">{error}</p>
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600" />
+                <p className="text-red-800 font-medium text-sm sm:text-base">{error}</p>
               </div>
             </div>
           )}
 
           {/* Personal Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Personal Information</h3>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
                   First Name
@@ -193,7 +193,7 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black text-sm sm:text-base"
                   placeholder="First name"
                   disabled={isLoading}
                 />
@@ -209,7 +209,7 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black text-sm sm:text-base"
                   placeholder="Last name"
                   disabled={isLoading}
                 />
@@ -228,7 +228,7 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black text-sm sm:text-base"
                   placeholder="email@example.com"
                   disabled={isLoading}
                 />
@@ -237,9 +237,9 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
           </div>
 
           {/* Password Change Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Change Password (Optional)</h3>
-            <p className="text-sm text-gray-600">Leave blank if you dont want to change your password</p>
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Change Password (Optional)</h3>
+            <p className="text-xs sm:text-sm text-gray-600">Leave blank if you dont want to change your password</p>
             
             <div>
               <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-2">
@@ -253,7 +253,7 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
                   name="currentPassword"
                   value={formData.currentPassword}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black"
+                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black text-sm sm:text-base"
                   placeholder="Current password"
                   disabled={isLoading}
                 />
@@ -279,7 +279,7 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
                   name="newPassword"
                   value={formData.newPassword}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black"
+                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black text-sm sm:text-base"
                   placeholder="New password (min 6 characters)"
                   disabled={isLoading}
                 />
@@ -305,7 +305,7 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black  "
+                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-black text-sm sm:text-base"
                   placeholder="Confirm new password"
                   disabled={isLoading}
                 />
@@ -321,19 +321,19 @@ export default function ProfileEditModal({ isOpen, onClose, user, onUpdate }: Pr
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
             <button
               type="button"
               onClick={handleClose}
               disabled={isLoading}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="w-full sm:flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 text-sm sm:text-base"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full sm:flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               {isLoading ? (
                 <>

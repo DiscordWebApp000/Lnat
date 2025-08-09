@@ -174,7 +174,7 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Yükleniyor...</p>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -190,22 +190,22 @@ export default function DashboardPage() {
       <Navbar />
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
        
 
         {/* User Welcome Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <User className="w-10 h-10 text-white" />
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-xl p-4 sm:p-8 mb-6 sm:mb-8 text-white">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <User className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
                   Welcome, {currentUser.firstName}!
                 </h2>
-                <p className="text-blue-100 mb-2">{currentUser.email}</p>
-                <div className="flex items-center gap-6 text-sm text-blue-100">
+                <p className="text-blue-100 mb-2 text-sm sm:text-base">{currentUser.email}</p>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6 text-sm text-blue-100">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     <span>Member since: {formatDate(currentUser.createdAt)}</span>
@@ -217,23 +217,23 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full lg:w-auto">
               {currentUser.role === 'admin' && (
                 <>
                   <Link
                     href="/admin"
-                    className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-colors"
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-colors text-sm sm:text-base w-full sm:w-auto"
                   >
-                    <Shield className="w-5 h-5" />
+                    <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span className="font-semibold">Admin Panel</span>
                   </Link>
                 </>
               )}
               <button
                 onClick={() => setIsProfileModalOpen(true)}
-                className="flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-200 shadow-lg"
+                className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-200 shadow-lg text-sm sm:text-base w-full sm:w-auto"
               >
-                <Settings className="w-5 h-5" />
+                <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="font-medium">Profile Settings</span>
               </button>
             </div>
@@ -243,64 +243,64 @@ export default function DashboardPage() {
        
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border-l-4 border-blue-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm font-medium">Total Exams</p>
-                <p className="text-2xl font-bold text-gray-900">{examResults.length}</p>
+                <p className="text-gray-600 text-xs sm:text-sm font-medium">Total Exams</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{examResults.length}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-blue-600" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
               </div>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border-l-4 border-green-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm font-medium">Average Score</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-gray-600 text-xs sm:text-sm font-medium">Average Score</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">
                   {examResults.length > 0 
                     ? Math.round(examResults.reduce((acc, result) => acc + result.score, 0) / examResults.length)
                     : 0}%
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-green-600" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border-l-4 border-yellow-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm font-medium">Active Tools</p>
-                <p className="text-2xl font-bold text-gray-900">{permissions.length}</p>
+                <p className="text-gray-600 text-xs sm:text-sm font-medium">Active Tools</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{permissions.length}</p>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <Lock className="w-6 h-6 text-yellow-600" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border-l-4 border-purple-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-600 text-sm font-medium">Account Status</p>
-                <p className="text-sm font-semibold text-green-600 mt-1">Active</p>
+                <p className="text-gray-600 text-xs sm:text-sm font-medium">Account Status</p>
+                <p className="text-xs sm:text-sm font-semibold text-green-600 mt-1">Active</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-purple-600" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Tools Section */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Tools</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mb-6 sm:mb-8">
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Tools</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {['text-question-analysis', 'question-generator', 'writing-evaluator'].map((tool) => {
               const toolInfo = getToolInfo(tool);
               const userHasPermission = hasPermission(tool);
@@ -309,31 +309,31 @@ export default function DashboardPage() {
               return (
                 <div
                   key={tool}
-                  className={`bg-white rounded-xl shadow-lg p-6 border-2 transition-all ${
+                  className={`bg-white rounded-xl shadow-lg p-4 sm:p-6 border-2 transition-all ${
                     userHasPermission 
                       ? 'border-transparent hover:shadow-xl cursor-pointer' 
                       : 'border-gray-200 opacity-60 cursor-not-allowed'
                   }`}
                   onClick={() => userHasPermission && router.push(toolInfo.href)}
                 >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-12 h-12 ${toolInfo.color} rounded-lg flex items-center justify-center`}>
-                      <Icon className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-3 sm:gap-4 mb-4">
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 ${toolInfo.color} rounded-lg flex items-center justify-center`}>
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900">{toolInfo.name}</h4>
-                      <p className="text-sm text-gray-600">{toolInfo.description}</p>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-gray-900 text-sm sm:text-base">{toolInfo.name}</h4>
+                      <p className="text-xs sm:text-sm text-gray-600">{toolInfo.description}</p>
                     </div>
                   </div>
                   
                   {userHasPermission ? (
-                    <div className="flex items-center gap-2 text-green-600 text-sm">
-                      <CheckCircle className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-green-600 text-xs sm:text-sm">
+                      <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span>Permission granted</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2 text-gray-500 text-sm">
-                      <Lock className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-gray-500 text-xs sm:text-sm">
+                      <Lock className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span>Permission required</span>
                     </div>
                   )}
@@ -346,10 +346,10 @@ export default function DashboardPage() {
 
 
         {/* Recent Exam Results */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-gray-900">Recent Exam Results</h3>
-            <div className="flex items-center gap-4">
+        <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Recent Exam Results</h3>
+            <div className="flex items-center gap-3 sm:gap-4">
               <button
                 onClick={() => {
                   console.log('🔄 Manual refresh triggered');
@@ -362,7 +362,7 @@ export default function DashboardPage() {
               </button>
               <Link
                 href="/exam-results"
-                className="text-green-600 hover:text-green-700 font-medium"
+                className="text-green-600 hover:text-green-700 font-medium text-sm sm:text-base"
               >
                 View All →
               </Link>
@@ -372,28 +372,28 @@ export default function DashboardPage() {
           {loadingResults ? (
             <div className="text-center py-8">
               <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading exam results...</p>
+              <p className="text-gray-600 text-sm sm:text-base">Loading exam results...</p>
             </div>
           ) : examResults.length === 0 ? (
             <div className="text-center py-8">
               <BarChart3 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No exam results found yet.</p>
-              <p className="text-sm text-gray-500 mt-2">Start taking exams using the tools!</p>
+              <p className="text-gray-600 text-sm sm:text-base">No exam results found yet.</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-2">Start taking exams using the tools!</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {examResults.slice(0, 5).map((result) => (
-                <div key={result.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <BarChart3 className="w-5 h-5 text-blue-600" />
+                <div key={result.id} className="border border-gray-200 rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                       </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-gray-900 text-sm sm:text-base">
                           {getToolInfo(result.examType).name}
                         </h4>
-                        <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-gray-500 mt-1">
                           <span className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             {formatDate(result.examDate)}
@@ -405,14 +405,14 @@ export default function DashboardPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-between sm:justify-end gap-3">
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-gray-900">{result.score}%</div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-xl sm:text-2xl font-bold text-gray-900">{result.score}%</div>
+                        <div className="text-xs sm:text-sm text-gray-500">
                           {result.correctAnswers}/{result.totalQuestions} correct
                         </div>
                       </div>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex gap-1 sm:gap-2">
                         <button
                           onClick={() => router.push(`/exam-results?id=${result.id}`)}
                           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"

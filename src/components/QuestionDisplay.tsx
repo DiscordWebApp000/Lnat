@@ -215,51 +215,51 @@ export default function QuestionDisplay({
       : 0;
     
     return (
-      <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg">
         <div className="text-center mb-6">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 mx-auto mb-4" />
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
               {isLastSection ? 'Exam Finished! 🎉' : 'Section Finished! ✅'}
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm sm:text-base">
             {isLastSection ? 'Evaluation in progress...' : `Next section loading... (${currentSection}/${totalSections})`}
           </p>
         </div>
 
         {/* Time Statistics */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 sm:p-6 border border-blue-100">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
             <Clock className="w-5 h-5 text-blue-600" />
             Time Statistics
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {/* Total Time */}
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-blue-100">
+            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm border border-blue-100">
               <div className="text-center">
-                <Timer className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                <p className="text-sm text-gray-600 mb-1">Total Time</p>
-                <p className="text-xl font-bold text-blue-600">{formatTime(totalTime)}</p>
+                <Timer className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mx-auto mb-2" />
+                <p className="text-xs sm:text-sm text-gray-600 mb-1">Total Time</p>
+                <p className="text-lg sm:text-xl font-bold text-blue-600">{formatTime(totalTime)}</p>
               </div>
             </div>
 
             {/* Average Time per Question */}
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-green-100">
+            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm border border-green-100">
               <div className="text-center">
-                <Clock className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <p className="text-sm text-gray-600 mb-1">Average Time per Question</p>
-                <p className="text-xl font-bold text-green-600">{formatTime(averageTime)}</p>
+                <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 mx-auto mb-2" />
+                <p className="text-xs sm:text-sm text-gray-600 mb-1">Average Time per Question</p>
+                <p className="text-lg sm:text-xl font-bold text-green-600">{formatTime(averageTime)}</p>
               </div>
             </div>
 
             {/* Speed Rating */}
-            <div className="bg-white rounded-lg p-4 shadow-sm border border-purple-100">
+            <div className="bg-white rounded-lg p-3 sm:p-4 shadow-sm border border-purple-100">
               <div className="text-center">
-                <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 flex items-center justify-center">
                   {averageTime <= 60 ? '🚀' : averageTime <= 120 ? '⚡' : '🐌'}
                 </div>
-                <p className="text-sm text-gray-600 mb-1">Speed Evaluation</p>
-                <p className="text-xl font-bold text-purple-600">
+                <p className="text-xs sm:text-sm text-gray-600 mb-1">Speed Evaluation</p>
+                <p className="text-lg sm:text-xl font-bold text-purple-600">
                   {averageTime <= 60 ? 'Very Fast' : averageTime <= 120 ? 'Ideal' : 'Careful'}
                 </p>
               </div>
@@ -269,12 +269,12 @@ export default function QuestionDisplay({
           {/* Individual Question Times */}
           {questionTimes && Object.keys(questionTimes).length > 0 && (
             <div className="mt-6">
-              <h4 className="text-md font-medium text-gray-700 mb-3">Question-Based Times:</h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+              <h4 className="text-sm sm:text-md font-medium text-gray-700 mb-3">Question-Based Times:</h4>
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
                 {Object.entries(questionTimes).map(([questionId, time]) => (
                   <div key={questionId} className="bg-white rounded-lg p-2 text-center border border-gray-200">
                     <p className="text-xs text-gray-500">Question {questionId}</p>
-                    <p className="text-sm font-semibold text-gray-700">{formatTime(time || 0)}</p>
+                    <p className="text-xs sm:text-sm font-semibold text-gray-700">{formatTime(time || 0)}</p>
                   </div>
                 ))}
               </div>
@@ -286,14 +286,14 @@ export default function QuestionDisplay({
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg">
       {/* Progress Bar with Timer */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-2">
+      <div className="mb-4 sm:mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2">
           <span className="text-sm font-medium text-gray-700">
               Question {questions.findIndex(q => q.id === currentQuestion.id) + 1} / {questions.length}
           </span>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <div className="flex items-center gap-1 text-blue-600">
               <Timer className="w-4 h-4" />
               <span className="text-sm font-mono font-semibold">
@@ -328,7 +328,7 @@ export default function QuestionDisplay({
           />
         </div>
         
-        <div className="flex justify-between items-center mt-1">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-1 gap-1">
           <span className="text-xs text-gray-400">
             Average time per question: {Object.keys(questionTimes).length > 0 
               ? formatTime(Math.round(Object.values(questionTimes).reduce((a, b) => a + b, 0) / Object.keys(questionTimes).length))
@@ -342,8 +342,8 @@ export default function QuestionDisplay({
       </div>
 
       {/* Question Info with Actions */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <div className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(currentQuestion.difficulty || 'medium')}`}>
             {getDifficultyText(currentQuestion.difficulty || 'medium')}
           </div>
@@ -382,14 +382,14 @@ export default function QuestionDisplay({
       </div>
 
       {/* Question Text */}
-      <div className="mb-8">
-        <h3 className="text-lg font-semibold text-gray-800">
+      <div className="mb-6 sm:mb-8">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800">
           {currentQuestion.text}
         </h3>
       </div>
 
       {/* Options */}
-      <div className="space-y-3 mb-8">
+      <div className="space-y-3 mb-6 sm:mb-8">
         {currentQuestion.options && currentQuestion.options.length > 0 ? (
           currentQuestion.options.map((option, index) => {
             const optionLetter = String.fromCharCode(65 + index); // A, B, C, D, E
@@ -399,21 +399,21 @@ export default function QuestionDisplay({
               <button
                 key={index}
                 onClick={() => handleAnswerSelect(optionLetter)}
-                className={`w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ${
+                className={`w-full p-3 sm:p-4 text-left border-2 rounded-lg transition-all duration-200 ${
                   isSelected 
                     ? 'border-blue-500 bg-blue-50' 
                     : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-medium ${
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-sm font-medium flex-shrink-0 ${
                     isSelected 
                       ? 'border-blue-500 bg-blue-500 text-white' 
                       : 'border-gray-300 text-gray-600'
                   }`}>
                     {optionLetter}
                   </div>
-                  <span className="text-gray-800">{option}</span>
+                  <span className="text-gray-800 text-sm sm:text-base">{option}</span>
                 </div>
               </button>
             );
@@ -431,11 +431,11 @@ export default function QuestionDisplay({
         
 
         {/* Navigation */}
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row justify-between gap-3">
           <button
             onClick={handlePreviousWithTimer}
             disabled={currentQuestion.id === questions[0]?.id}
-            className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 sm:px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
           >
             Previous
           </button>
@@ -443,7 +443,7 @@ export default function QuestionDisplay({
           <button
             onClick={handleNextWithTimer}
             disabled={!existingAnswers[currentQuestion.id]}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            className="px-4 sm:px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
           >
             {isLastQuestion ? (isLastSection ? 'Finish Exam' : 'Next Section') : 'Next'}
           </button>
@@ -480,7 +480,7 @@ export default function QuestionDisplay({
                       onAnswerSelect(question.id, existingAnswers[question.id] || '');
                     }
                   }}
-                  className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                     isCurrentQuestion
                       ? 'bg-blue-600 text-white'
                       : isAnswered
