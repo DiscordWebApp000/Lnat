@@ -7,6 +7,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import {  examService } from '@/lib/firebase-services';
 import Navbar from '@/components/Navbar';
 import ProfileEditModal from '@/components/ProfileEditModal';
+import FloatingSupportButton from '@/components/FloatingSupportButton';
+
 import { ExamResult } from '@/types/user';
 import { 
   BookOpen, 
@@ -446,6 +448,9 @@ export default function DashboardPage() {
           onUpdate={handleProfileUpdate}
         />
       )}
+
+      {/* Floating Support Button */}
+      <FloatingSupportButton />
     </div>
   );
 } 

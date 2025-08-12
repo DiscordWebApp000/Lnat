@@ -21,6 +21,7 @@ import {
 } from 'firebase/auth';
 import { db, auth } from './firebase';
 import { User, UserProfile, ExamResult, Permission, UserPermission } from '@/types/user';
+import { SupportTicket, SupportMessage } from '@/types/user';
 
 // Auth Services
 export const authService = {
@@ -42,14 +43,14 @@ export const authService = {
         isActive: true
       };
       
-      // Firestore'a kaydet
+      // Save to Firestore
       await setDoc(doc(db, 'users', user.uid), {
         ...newUser,
         createdAt: Timestamp.fromDate(newUser.createdAt),
         lastLoginAt: Timestamp.fromDate(newUser.lastLoginAt)
       });
       
-      // Profil oluştur
+      // Create profile
       const profile: UserProfile = {
         uid: user.uid,
         firstName,
@@ -62,23 +63,23 @@ export const authService = {
       return newUser;
     } catch (error: unknown) {
       console.error('Registration error:', error);
-      throw new Error(error instanceof Error ? error.message : 'Kayıt sırasında bir hata oluştu');
+      throw new Error(error instanceof Error ? error.message : 'An error occurred during registration');
     }
   },
 
-  // Giriş yap
+  // Login
   async login(email: string, password: string): Promise<User> {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       
-      // Kullanıcı bilgilerini getir
+      // Get user information
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       
       let userWithDates: User;
       
       if (!userDoc.exists()) {
-        // Eğer Firestore'da kullanıcı yoksa, yeni bir profil oluştur
+        // If user not found in Firestore, create new profile
         console.log('User not found in Firestore, creating new profile');
         
         const newUser: User = {
@@ -93,14 +94,14 @@ export const authService = {
           isActive: true
         };
         
-        // Firestore'a kaydet
+        // Save to Firestore
         await setDoc(doc(db, 'users', user.uid), {
           ...newUser,
           createdAt: Timestamp.fromDate(newUser.createdAt),
           lastLoginAt: Timestamp.fromDate(newUser.lastLoginAt)
         });
         
-        // Profil oluştur
+        // Create profile
         const profile: UserProfile = {
           uid: user.uid,
           firstName: newUser.firstName,
@@ -120,8 +121,8 @@ export const authService = {
         } as User;
       }
       
-      // Son giriş zamanını güncelle
-      await updateDoc(doc(db, 'users', user.uid), {
+              // Update last login time
+        await updateDoc(doc(db, 'users', user.uid), {
         lastLoginAt: Timestamp.fromDate(new Date())
       });
       
@@ -132,12 +133,12 @@ export const authService = {
     }
   },
 
-  // Çıkış yap
+  // Logout
   async logout(): Promise<void> {
     await signOut(auth);
   },
 
-  // Şifre değiştir
+  // Change password
   async changePassword(newPassword: string): Promise<void> {
     const user = auth.currentUser;
     if (!user) {
@@ -146,7 +147,7 @@ export const authService = {
     await updatePassword(user, newPassword);
   },
 
-  // Şifre sıfırlama emaili gönder
+  // Send password reset email
   async resetPassword(email: string): Promise<void> {
     await sendPasswordResetEmail(auth, email);
   }
@@ -154,7 +155,7 @@ export const authService = {
 
 // User Services
 export const userService = {
-  // Kullanıcı bilgilerini getir
+  // Get user information
   async getUser(uid: string): Promise<User | null> {
     try {
       const userDoc = await getDoc(doc(db, 'users', uid));
@@ -175,7 +176,7 @@ export const userService = {
     }
   },
 
-  // Kullanıcı profilini getir
+  // Get user profile
   async getUserProfile(uid: string): Promise<UserProfile | null> {
     const profileDoc = await getDoc(doc(db, 'userProfiles', uid));
     if (!profileDoc.exists()) {
@@ -418,5 +419,179 @@ export const permissionService = {
     const permissionsQuery = query(collection(db, 'permissions'));
     const snapshot = await getDocs(permissionsQuery);
     return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Permission[];
+  }
+}; 
+
+// Support Services
+export const supportService = {
+  // Create a new support ticket
+  async createTicket(ticket: Omit<SupportTicket, 'id' | 'createdAt' | 'updatedAt' | 'lastMessageAt' | 'isReadByAdmin' | 'isReadByUser'>): Promise<string> {
+    try {
+      const ticketData = {
+        ...ticket,
+        createdAt: Timestamp.fromDate(new Date()),
+        updatedAt: Timestamp.fromDate(new Date()),
+        lastMessageAt: Timestamp.fromDate(new Date()),
+        // Ticket oluşturulduğunda admin'e bildirim gönder, user'a değil
+        isReadByAdmin: false, // Admin'e bildirim
+        isReadByUser: true    // User kendi ticket'ını görmüş sayılır
+      };
+      
+      const docRef = await addDoc(collection(db, 'supportTickets'), ticketData);
+      return docRef.id;
+    } catch (error) {
+      console.error('Error creating support ticket:', error);
+      throw new Error('Failed to create support ticket');
+    }
+  },
+
+  // Get user's support tickets
+  async getUserTickets(userId: string): Promise<SupportTicket[]> {
+    try {
+      // Index gerektirmeyen basit query
+      const q = query(
+        collection(db, 'supportTickets'),
+        where('userId', '==', userId)
+      );
+      const snapshot = await getDocs(q);
+      
+      // Client-side'da sıralama yap
+      const tickets = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate() || new Date(),
+        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+        lastMessageAt: doc.data().lastMessageAt?.toDate() || new Date()
+      })) as SupportTicket[];
+      
+      // lastMessageAt'a göre sırala (en yeni önce)
+      tickets.sort((a, b) => b.lastMessageAt.getTime() - a.lastMessageAt.getTime());
+      
+      return tickets;
+    } catch (error) {
+      console.error('Error getting user tickets:', error);
+      return [];
+    }
+  },
+
+  // Get all support tickets (admin)
+  async getAllTickets(): Promise<SupportTicket[]> {
+    try {
+      // Index gerektirmeyen basit query
+      const snapshot = await getDocs(collection(db, 'supportTickets'));
+      
+      // Client-side'da sıralama yap
+      const tickets = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate() || new Date(),
+        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+        lastMessageAt: doc.data().lastMessageAt?.toDate() || new Date()
+      })) as SupportTicket[];
+      
+      // lastMessageAt'a göre sırala (en yeni önce)
+      tickets.sort((a, b) => b.lastMessageAt.getTime() - a.lastMessageAt.getTime());
+      
+      return tickets;
+    } catch (error) {
+      console.error('Error getting all tickets:', error);
+      return [];
+    }
+  },
+
+  // Get ticket messages
+  async getTicketMessages(ticketId: string): Promise<SupportMessage[]> {
+    try {
+      // Index gerektirmeyen basit query
+      const q = query(
+        collection(db, 'supportMessages'),
+        where('ticketId', '==', ticketId)
+      );
+      const snapshot = await getDocs(q);
+      
+      // Client-side'da sıralama yap
+      const messages = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate() || new Date()
+      })) as SupportMessage[];
+      
+      // createdAt'a göre sırala (eski önce)
+      messages.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+      
+      return messages;
+    } catch (error) {
+      console.error('Error getting ticket messages:', error);
+      return [];
+    }
+  },
+
+  // Send a message
+  async sendMessage(message: Omit<SupportMessage, 'id' | 'createdAt'>): Promise<string> {
+    try {
+      const messageData = {
+        ...message,
+        createdAt: Timestamp.fromDate(new Date())
+      };
+      
+      const docRef = await addDoc(collection(db, 'supportMessages'), messageData);
+      
+      // Update ticket's lastMessageAt and read status
+      const ticketRef = doc(db, 'supportTickets', message.ticketId);
+      const updateData: { 
+        lastMessageAt: Timestamp;
+        updatedAt: Timestamp;
+        isReadByUser?: boolean;
+        isReadByAdmin?: boolean;
+      } = {
+        lastMessageAt: Timestamp.fromDate(new Date()),
+        updatedAt: Timestamp.fromDate(new Date())
+      };
+
+      // Sadece admin mesaj attığında user'a bildirim gönder
+      if (message.senderType === 'admin') {
+        updateData.isReadByUser = false; // User'a bildirim göster
+        updateData.isReadByAdmin = true; // Admin kendi mesajını gördü
+      } else {
+        // User mesaj attığında admin'e bildirim gönder
+        updateData.isReadByAdmin = false; // Admin'e bildirim göster
+        // isReadByUser'ı değiştirme - user kendi mesajını görmüş sayılır
+      }
+
+      await updateDoc(ticketRef, updateData);
+      
+      return docRef.id;
+    } catch (error) {
+      console.error('Error sending message:', error);
+      throw new Error('Failed to send message');
+    }
+  },
+
+  // Update ticket status (admin)
+  async updateTicketStatus(ticketId: string, status: SupportTicket['status']): Promise<void> {
+    try {
+      const ticketRef = doc(db, 'supportTickets', ticketId);
+      await updateDoc(ticketRef, {
+        status,
+        updatedAt: Timestamp.fromDate(new Date())
+      });
+    } catch (error) {
+      console.error('Error updating ticket status:', error);
+      throw new Error('Failed to update ticket status');
+    }
+  },
+
+  // Mark ticket as read
+  async markTicketAsRead(ticketId: string, isAdmin: boolean): Promise<void> {
+    try {
+      const ticketRef = doc(db, 'supportTickets', ticketId);
+      if (isAdmin) {
+        await updateDoc(ticketRef, { isReadByAdmin: true });
+      } else {
+        await updateDoc(ticketRef, { isReadByUser: true });
+      }
+    } catch (error) {
+      console.error('Error marking ticket as read:', error);
+    }
   }
 }; 

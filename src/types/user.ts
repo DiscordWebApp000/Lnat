@@ -60,4 +60,30 @@ export interface UserPermission {
   grantedAt: Date;
   expiresAt?: Date;
   isActive: boolean;
+}
+
+export interface SupportTicket {
+  id: string;
+  userId: string;
+  userEmail: string;
+  userName: string;
+  subject: string;
+  status: 'open' | 'in-progress' | 'closed';
+  priority: 'low' | 'medium' | 'high';
+  createdAt: Date;
+  updatedAt: Date;
+  lastMessageAt: Date;
+  isReadByAdmin: boolean;
+  isReadByUser: boolean;
+}
+
+export interface SupportMessage {
+  id: string;
+  ticketId: string;
+  senderId: string;
+  senderName: string;
+  senderType: 'user' | 'admin';
+  message: string;
+  createdAt: Date;
+  isRead: boolean;
 } 

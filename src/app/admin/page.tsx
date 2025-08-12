@@ -20,6 +20,8 @@ import {
   Edit,
 } from 'lucide-react';
 import UserPermissionModal from '@/components/UserPermissionModal';
+import AdminSupportPanel from '@/components/AdminSupportPanel';
+import AdminSidebar from '@/components/AdminSidebar';
 
 export default function AdminPage() {
   const { currentUser, loading } = useAuth();
@@ -30,6 +32,7 @@ export default function AdminPage() {
   const [filterRole, setFilterRole] = useState<'all' | 'user' | 'admin'>('all');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'users' | 'support'>('users');
   const router = useRouter();
 
   useEffect(() => {
@@ -132,10 +135,20 @@ export default function AdminPage() {
         backUrl="/dashboard"
       />
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      {/* Admin Layout */}
+      <div className="flex h-[calc(100vh-80px)]">
+        {/* Sidebar */}
+        <AdminSidebar 
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+          {activeTab === 'users' && (
+            <>
+              {/* Stats */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border-l-4 border-blue-500">
             <div className="flex items-center justify-between">
               <div>
@@ -324,8 +337,17 @@ export default function AdminPage() {
               ))}
             </div>
           )}
-        </div>
-      </main>
+              </div>
+            </>
+          )}
+
+          {activeTab === 'support' && (
+            <div className="h-full">
+              <AdminSupportPanel />
+            </div>
+          )}
+        </main>
+      </div>
 
       {/* User Permission Modal */}
       {selectedUser && (

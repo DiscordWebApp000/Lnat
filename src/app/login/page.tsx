@@ -161,7 +161,7 @@ function LoginPageContent() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
-                  placeholder="ornek@email.com"
+                  placeholder="example@email.com"
                   required
                 />
               </div>
