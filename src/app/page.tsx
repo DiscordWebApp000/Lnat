@@ -73,7 +73,7 @@ export default function Home() {
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">
               Prepare for
               <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-2">
-                PREP Exam
+                LNAT Exam
               </span>
             </h1>
             
