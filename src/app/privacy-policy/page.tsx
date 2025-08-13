@@ -3,7 +3,7 @@ import { Shield, Eye,  Mail} from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - LNAT AI Platform',
+  title: 'Privacy Policy - PREP AI Platform',
   description: 'Learn about how we collect, use, and protect your personal information.',
 };
 
@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">LNAT AI</span>
+              <span className="text-xl font-bold text-gray-900">PREP AI</span>
             </Link>
             <div className="text-sm text-gray-500">
               Last updated: August 09, 2025
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
               Privacy Policy
             </h1>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              This Privacy Notice for LNAT AI Platform describes how and why we might access, collect, store, use, and/or share your personal information when you use our services.
+              This Privacy Notice for PREP AI Platform describes how and why we might access, collect, store, use, and/or share your personal information when you use our services.
             </p>
           </div>
 

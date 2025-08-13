@@ -55,7 +55,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
       <Navbar 
-        title="LNAT AI Platform"
+        title="PREP AI Platform"
         description="Smart Learning Assistant"
       />
 
@@ -73,7 +73,7 @@ export default function Home() {
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-8 leading-tight">
               Prepare for
               <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mt-2">
-                LNAT Exam
+                PREP Exam
               </span>
             </h1>
             
@@ -311,7 +311,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Why LNAT AI Platform?
+              Why PREP AI Platform?
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
               Our features supported by modern technology enhance your learning experience
@@ -335,7 +335,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Target-Focused</h3>
               <p className="text-gray-600 leading-relaxed">
-                Specifically designed for LNAT exam with real exam format questions
+                Specifically designed for PREP exam with real exam format questions
               </p>
             </div>
 
@@ -360,7 +360,7 @@ export default function Home() {
               Start Your Learning Journey
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              Start using for free now and prepare for the LNAT exam
+              Start using for free now and prepare for the PREP exam
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                               <Link href={currentUser && hasPermission('question-generator') ? "/question-generator" : "/dashboard"} className="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
@@ -388,13 +388,13 @@ export default function Home() {
               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Brain className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold">LNAT AI Platform</h3>
+              <h3 className="text-xl font-bold">PREP AI Platform</h3>
             </div>
             <p className="text-gray-400 mb-6">
               Prepare for the future with AI-powered learning platform
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-400">
-              <span>© 2025 LNAT AI Platform</span>
+              <span>© 2025 PREP AI Platform</span>
               <span className="hidden sm:inline">•</span>
               <span>Powered by Gemini AI</span>
               <span className="hidden sm:inline">•</span>

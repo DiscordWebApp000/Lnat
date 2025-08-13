@@ -3,8 +3,8 @@ import { Shield, FileText, Scale, Users, CreditCard, AlertTriangle, Lock, Mail, 
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms and Conditions - LNAT AI Platform',
-  description: 'Read our terms and conditions for using the LNAT AI Platform services.',
+  title: 'Terms and Conditions - PREP AI Platform',
+  description: 'Read our terms and conditions for using the PREP AI Platform services.',
 };
 
 export default function TermsAndConditionsPage() {
@@ -18,7 +18,7 @@ export default function TermsAndConditionsPage() {
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-gray-900">LNAT AI Platform</span>
+              <span className="text-lg font-bold text-gray-900">PREP AI Platform</span>
             </Link>
             <Link 
               href="/"
@@ -578,13 +578,13 @@ export default function TermsAndConditionsPage() {
               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Shield className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold">LNAT AI Platform</h3>
+              <h3 className="text-xl font-bold">PREP AI Platform</h3>
             </div>
             <p className="text-gray-400 mb-6">
               Prepare for the future with AI-powered learning platform
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-400">
-              <span>© 2025 LNAT AI Platform</span>
+              <span>© 2025 PREP AI Platform</span>
               <span className="hidden sm:inline">•</span>
               <span>Powered by Gemini AI</span>
               <span className="hidden sm:inline">•</span>

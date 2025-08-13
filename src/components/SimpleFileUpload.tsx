@@ -113,7 +113,7 @@ export default function SimpleFileUpload({ onFilesSelected, isProcessing }: Simp
             <div className="bg-white p-4 rounded-lg border border-green-200 shadow-sm">
               <p className="text-sm text-green-800 font-semibold mb-2">✅ Supported Formats:</p>
               <ul className="text-sm text-green-700 space-y-1">
-                <li>• Passage 1 – Title (LNAT format)</li>
+                <li>• Passage 1 – Title (PREP format)</li>
                 <li>• === Title === format</li>
                 <li>• --- QUESTIONS --- format</li>
                 <li>• Automatic text/question separation</li>

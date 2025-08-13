@@ -3,7 +3,7 @@ import { Shield, Cookie, Settings, Eye, Users, Lock } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy - LNAT AI Platform',
+  title: 'Cookie Policy - PREP AI Platform',
   description: 'Learn about how we use cookies and similar technologies on our website.',
 };
 
@@ -18,7 +18,7 @@ export default function CookiePolicyPage() {
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-gray-900">LNAT AI Platform</span>
+              <span className="text-lg font-bold text-gray-900">PREP AI Platform</span>
             </Link>
             <Link 
               href="/"
@@ -50,7 +50,7 @@ export default function CookiePolicyPage() {
           {/* Introduction */}
           <section>
             <p className="text-gray-700 leading-relaxed mb-4">
-              This Cookie Policy explains how LNAT AI Platform (Company, we, us, and our) uses cookies and similar technologies to recognize you when you visit our website at{' '}
+              This Cookie Policy explains how PREP AI Platform (Company, we, us, and our) uses cookies and similar technologies to recognize you when you visit our website at{' '}
               <a href="https://prep-ai.app" className="text-blue-600 hover:text-blue-700 underline" target="_blank" rel="noopener noreferrer">
                 https://prep-ai.app
               </a>{' '}
@@ -71,7 +71,7 @@ export default function CookiePolicyPage() {
               Cookies are small data files that are placed on your computer or mobile device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Cookies set by the website owner (in this case, LNAT AI Platform) are called first-party cookies. Cookies set by parties other than the website owner are called third-party cookies. Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.
+              Cookies set by the website owner (in this case, PREP AI Platform) are called first-party cookies. Cookies set by parties other than the website owner are called third-party cookies. Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics). The parties that set these third-party cookies can recognize your computer both when it visits the website in question and also when it visits certain other websites.
             </p>
           </section>
 
@@ -238,13 +238,13 @@ export default function CookiePolicyPage() {
               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Shield className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-bold">LNAT AI Platform</h3>
+              <h3 className="text-xl font-bold">PREP AI Platform</h3>
             </div>
             <p className="text-gray-400 mb-6">
               Prepare for the future with AI-powered learning platform
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-400">
-              <span>© 2025 LNAT AI Platform</span>
+              <span>© 2025 PREP AI Platform</span>
               <span className="hidden sm:inline">•</span>
               <span>Powered by Gemini AI</span>
               <span className="hidden sm:inline">•</span>

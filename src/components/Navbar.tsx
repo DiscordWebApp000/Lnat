@@ -54,13 +54,13 @@ export default function Navbar({
     switch (pathname) {
       case '/':
         return { 
-          title: 'LNAT Prep', 
+          title: 'PREP AI Platform', 
           description: 'AI-Powered Law Exam Preparation', 
           icon: BookOpen 
         };
       case '/dashboard':
         return { 
-          title: 'LNAT Dashboard', 
+          title: 'PREP AI Platform', 
           description: `Welcome, ${currentUser?.firstName || 'User'}!`, 
           icon: BarChart3 
         };
@@ -72,7 +72,7 @@ export default function Navbar({
         };
       case '/question-generator':
         return { 
-          title: 'LNAT Question Generator', 
+          title: 'PREP AI Platform', 
           description: 'AI-Supported Law Exam Preparation', 
           icon: Brain 
         };
@@ -96,7 +96,7 @@ export default function Navbar({
         };
       default:
         return { 
-          title: 'LNAT Prep', 
+          title: 'PREP AI Platform', 
           description: 'AI-Powered Law Exam Preparation', 
           icon: BookOpen 
         };

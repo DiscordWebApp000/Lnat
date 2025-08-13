@@ -520,7 +520,7 @@ export default function WritingEvaluator() {
       <footer className="bg-white border-t mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="text-center text-gray-600">
-            <p>© 2025 LNAT Essay Evaluator. Powered by Google AI</p>
+            <p>© 2025 PREP Essay Evaluator. Powered by Google AI</p>
           </div>
         </div>
       </footer>

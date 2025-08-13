@@ -14,24 +14,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LNAT AI Platform - Smart Practice with AI",
-  description: "AI-powered LNAT preparation platform. Text analysis, question generation, and performance evaluation to enhance your learning experience.",
-  keywords: "LNAT, LNAT AI, AI, yapay zeka, soru üretimi, metin analizi, öğrenme platformu",
-  authors: [{ name: "LNAT AI Platform" }],
-  creator: "LNAT AI Platform",
-  publisher: "LNAT AI Platform",
+  title: "PREP AI Platform - Smart Practice with AI",
+  description: "AI-powered PREP preparation platform. Text analysis, question generation, and performance evaluation to enhance your learning experience.",
+  keywords: "PREP, PREP AI, AI, yapay zeka, soru üretimi, metin analizi, öğrenme platformu",
+  authors: [{ name: "PREP AI Platform" }],
+  creator: "PREP AI Platform",
+  publisher: "PREP AI Platform",
   robots: "index, follow",
   openGraph: {
-    title: "LNAT AI Platform - Smart Practice with AI",
-    description: "AI-powered LNAT preparation platform",
+    title: "PREP AI Platform - Smart Practice with AI",
+    description: "AI-powered PREP preparation platform",
     type: "website",
     locale: "tr_TR",
-    siteName: "LNAT AI Platform",
+    siteName: "PREP AI Platform",
   },
   twitter: {
     card: "summary_large_image",
-    title: "LNAT AI Platform - Smart Practice with AI",
-    description: "AI-powered LNAT preparation platform",
+    title: "PREP AI Platform - Smart Practice with AI",
+    description: "AI-powered PREP preparation platform",
   },
   icons: {
     icon: "/favicon.png",
